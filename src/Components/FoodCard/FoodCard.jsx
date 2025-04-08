@@ -11,11 +11,11 @@ const FoodCard = ({item}) => {
                     alt="Shoes" />
             </figure>
             <p className="absolute rounded-lg right-0 mr-4 mt-3 px-3 bg-slate-900 text-white">$</p>
-            <div className="card-body ">
+            <div className="card-body flex flex-col items-center">
                 <h2 className="card-title">{name}</h2>
                 <p>{recipe}</p>
                 <div className="card-actions justify-end">
-                    <button className="btn btn-primary">Add to Cart</button>
+                    <button className="btn btn-outline border-0 border-b-3 border-orange-400 mt-4">Add to Cart</button>
                 </div>
             </div>
         </div>
