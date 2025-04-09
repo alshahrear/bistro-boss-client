@@ -2,15 +2,16 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
 import { AuthContext } from '../../providers/AuthProvider';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
 
 const Login = () => {
     const captchaRef = useRef(null);
     const [disabled, setDisabled] = useState(true);
-    const {signIn} = useContext(AuthContext);
+    const { signIn } = useContext(AuthContext);
 
-    useEffect(() =>{
-        loadCaptchaEnginge(6); 
+    useEffect(() => {
+        loadCaptchaEnginge(6);
     }, [])
 
     const handleLogin = e => {
@@ -20,20 +21,23 @@ const Login = () => {
         const password = form.password.value;
         console.log(email, password);
         signIn(email, password)
-        .then(result => {
-            console.log(result.user)
-        })
+            .then(result => {
+                console.log(result.user)
+            })
     }
 
     const handleValidateCaptcha = () => {
         const user_captcha_value = captchaRef.current.value;
-        if(validateCaptcha(user_captcha_value)){
+        if (validateCaptcha(user_captcha_value)) {
             setDisabled(false);
         }
     }
-    
+
     return (
         <div className="hero bg-base-200 min-h-screen">
+            <Helmet>
+                <title>Bistro | Login</title>
+            </Helmet>
             <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
                 <form onSubmit={handleLogin} className="card-body">
                     <fieldset className="fieldset">
