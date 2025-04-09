@@ -1,14 +1,19 @@
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
 import { AuthContext } from '../../providers/AuthProvider';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import Swal from 'sweetalert2';
 
 
 const Login = () => {
-    const captchaRef = useRef(null);
+   
     const [disabled, setDisabled] = useState(true);
     const { signIn } = useContext(AuthContext);
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const from = location.state?.from?.pathname || "/";
 
     useEffect(() => {
         loadCaptchaEnginge(6);
@@ -22,12 +27,30 @@ const Login = () => {
         console.log(email, password);
         signIn(email, password)
             .then(result => {
-                console.log(result.user)
+                console.log(result.user);
+                Swal.fire({
+                    title: "User login successfully",
+                    showClass: {
+                      popup: `
+                        animate__animated
+                        animate__fadeInUp
+                        animate__faster
+                      `
+                    },
+                    hideClass: {
+                      popup: `
+                        animate__animated
+                        animate__fadeOutDown
+                        animate__faster
+                      `
+                    }
+                  });
+                  navigate(from, {replace: true});
             })
     }
 
-    const handleValidateCaptcha = () => {
-        const user_captcha_value = captchaRef.current.value;
+    const handleValidateCaptcha = (e) => {
+        const user_captcha_value = e.target.value;
         if (validateCaptcha(user_captcha_value)) {
             setDisabled(false);
         }
@@ -47,8 +70,7 @@ const Login = () => {
                         <input type="password" name="password" className="input" placeholder="Password" />
                         <div><a className="link link-hover">Forgot password?</a></div>
                         <LoadCanvasTemplate />
-                        <input type="text" ref={captchaRef} name="captcha" className="input" placeholder="type the text above" />
-                        <button onClick={handleValidateCaptcha} className="btn mt-2 btn-outline btn-xs">Validate</button>
+                        <input onBlur={handleValidateCaptcha} type="text"  name="captcha" className="input" placeholder="type the text above" />
                         <input disabled={disabled} className="btn btn-neutral mt-4" type="submit" value="Login" />
                     </fieldset>
                 </form>

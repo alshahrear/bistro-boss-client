@@ -2,17 +2,35 @@ import { useContext } from "react";
 import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../providers/AuthProvider";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const SignUp = () => {
-    const { register, handleSubmit, formState: { errors } } = useForm();
-    const {createUser} = useContext(AuthContext);
+    const { register, handleSubmit, reset, formState: { errors } } = useForm();
+    const {createUser, updateUserProfile} = useContext(AuthContext);
+    const navigate = useNavigate();
 
     const onSubmit = data => {
         console.log(data);
         createUser(data.email, data.password)
         .then(result => {
-            console.log(result.user)
+            console.log(result.user);
+            updateUserProfile(data.name, data.photoURL)
+            .then(()=>{
+                console.log('user update profile')
+                reset();
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "User Created Successfully",
+                    showConfirmButton: false,
+                    timer: 1500
+                  });
+                  navigate('/');
+            })
+            .catch(error => {
+                console.log(error)
+            })
         })
     };
 
@@ -24,9 +42,14 @@ const SignUp = () => {
             <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
                 <form onSubmit={handleSubmit(onSubmit)} className="card-body">
                     <fieldset className="fieldset">
+
                         <label className="fieldset-label">Name</label>
                         <input type="name" {...register("name", { required: true })} name="name" className="input" placeholder="Name" />
                         {errors.name && <span className="text-red-600">Name is required</span>}
+
+                        <label className="fieldset-label">Photo URL</label>
+                        <input type="name" {...register("photoURL", { required: true })} className="input" placeholder="Photo URL" />
+                        {errors.photoURL && <span className="text-red-600">Photo URL is required</span>}
 
                         <label className="fieldset-label">Email</label>
                         <input type="email" {...register("email", { required: true })} name="email" className="input" placeholder="Email" />
