@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const UseMenu = () => {
+const useMenu = () => {
     const [menu, setMenu] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -15,4 +15,4 @@ const UseMenu = () => {
         return [menu, loading];
 };
 
-export default UseMenu;
+export default useMenu;
