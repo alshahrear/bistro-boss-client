@@ -4,34 +4,49 @@ import { useForm } from "react-hook-form";
 import { AuthContext } from "../../providers/AuthProvider";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import SocialLogin from "../../Components/SocialLogin/SocialLogin";
 
 const SignUp = () => {
+    const axiosPublic = useAxiosPublic();
+
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
-    const {createUser, updateUserProfile} = useContext(AuthContext);
+    const { createUser, updateUserProfile } = useContext(AuthContext);
     const navigate = useNavigate();
 
     const onSubmit = data => {
         console.log(data);
         createUser(data.email, data.password)
-        .then(result => {
-            console.log(result.user);
-            updateUserProfile(data.name, data.photoURL)
-            .then(()=>{
-                console.log('user update profile')
-                reset();
-                Swal.fire({
-                    position: "top-end",
-                    icon: "success",
-                    title: "User Created Successfully",
-                    showConfirmButton: false,
-                    timer: 1500
-                  });
-                  navigate('/');
+            .then(result => {
+                console.log(result.user);
+                updateUserProfile(data.name, data.photoURL)
+                    .then(() => {
+                        // console.log('user update profile')
+                        const userInfo = {
+                            name: data.name,
+                            email: data.email
+                        }
+                        axiosPublic.post('/users', userInfo)
+                            .then(res => {
+                                if (res.data.insertedId) {
+                                    console.log('user added to the database')
+                                    reset();
+                                    Swal.fire({
+                                        position: "top-end",
+                                        icon: "success",
+                                        title: "User Created Successfully",
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    });
+                                    navigate('/');
+                                }
+                            })
+
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
             })
-            .catch(error => {
-                console.log(error)
-            })
-        })
     };
 
     return (
@@ -73,6 +88,7 @@ const SignUp = () => {
                     </fieldset>
                 </form>
                 <p className='link-hover text-center mb-3'><small>New Here? <Link to="/login">Already have an account</Link></small></p>
+                <SocialLogin></SocialLogin>
             </div>
         </div>
     );

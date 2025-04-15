@@ -1,57 +1,71 @@
 import { NavLink, Outlet } from "react-router-dom";
-import { IoIosCart } from "react-icons/io";
-import { FaAd, FaCalendar, FaHome, FaList } from "react-icons/fa";
+import { FaBook, FaEnvelope, FaHome, FaList, FaUsers, FaUtensils } from "react-icons/fa";
 import { IoMdMenu } from "react-icons/io";
 import useCart from "../Hooks/useCart";
 
 const Dashboard = () => {
     const [cart] = useCart();
+    const isAdmin = true;
 
     return (
         <div className="flex">
             <div className="min-h-screen w-64 bg-orange-400">
                 <ul className="menu p-4">
-                    <li>
-                        <NavLink to="/dashboard/userHome">
-                        <FaHome></FaHome>
-                        User Home
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink to="/dashboard/cart">
-                        <IoIosCart></IoIosCart>
-                        My Cart ({cart.length})
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink to="/dashboard/review">
-                        <FaAd></FaAd>
-                        Review
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink to="/dashboard/reservation">
-                        <FaCalendar></FaCalendar>
-                        Reservation
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink to="/dashboard/bookings">
-                        <FaList></FaList>
-                       My Bookings
-                        </NavLink>
-                    </li>
+                    {
+                        isAdmin ?
+                            <>
+                             <li>
+                                    <NavLink to="/dashboard/adminHome">
+                                        <FaHome></FaHome>
+                                        Admin Home
+                                    </NavLink>
+                                </li>
+                                <li>
+                                    <NavLink to="/dashboard/addItems">
+                                        <FaUtensils></FaUtensils>
+                                        Add Items
+                                    </NavLink>
+                                </li>
+                                <li>
+                                    <NavLink to="/dashboard/manageItems">
+                                        <FaList></FaList>
+                                        Manage Items
+                                    </NavLink>
+                                </li>
+                                <li>
+                                    <NavLink to="/dashboard/bookings">
+                                        <FaBook></FaBook>
+                                        Manage Bookings
+                                    </NavLink>
+                                </li>
+                                <li>
+                                    <NavLink to="/dashboard/users">
+                                        <FaUsers></FaUsers>
+                                       All Users
+                                    </NavLink>
+                                </li>
+                            </> :
+                            <>
+                               
+                            </>
+                    }
                     <div className="divider"></div>
                     <li>
                         <NavLink to="/">
-                        <FaHome></FaHome>
-                       Home
+                            <FaHome></FaHome>
+                            Home
                         </NavLink>
                     </li>
                     <li>
                         <NavLink to="/order/salad">
-                        <IoMdMenu></IoMdMenu>
-                       Menu
+                            <IoMdMenu></IoMdMenu>
+                            Menu
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/order/contact">
+                            <FaEnvelope></FaEnvelope>
+                            Contact
                         </NavLink>
                     </li>
                 </ul>
