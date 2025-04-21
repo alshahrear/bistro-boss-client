@@ -1,7 +1,7 @@
 
 import SectionTitle from "../../../Components/SectionTitle/SectionTitle";
 import MenuItem from "../../Shared/ManuItem/MenuItem";
-import UseMenu from "../../../Hooks/UseMenu";
+import UseMenu from "../../../hooks/UseMenu";
 
 
 

@@ -3,7 +3,7 @@ import orderImg from "../../../assets/shop/order.jpg";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import { useState } from "react";
-import UseMenu from "../../../Hooks/UseMenu";
+import UseMenu from "../../../hooks/UseMenu";
 import OrderTab from "../OrderTab/OrderTab";
 import { useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";

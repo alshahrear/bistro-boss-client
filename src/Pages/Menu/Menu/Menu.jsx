@@ -5,7 +5,7 @@ import pizzaImg from "../../../assets/menu/pizza-bg.jpg";
 import saladImg from "../../../assets/menu/salad-bg.jpg";
 import soupImg from "../../../assets/menu/soup-bg.jpg";
 import dessertImg from "../../../assets/menu/dessert-bg.jpeg";
-import UseMenu from '../../../Hooks/UseMenu';
+import UseMenu from '../../../hooks/UseMenu';
 import SectionTitle from '../../../Components/SectionTitle/SectionTitle';
 import MenuCategory from '../ManuCategory/MenuCategory';
 
